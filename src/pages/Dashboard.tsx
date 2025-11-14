@@ -97,13 +97,13 @@ const Dashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [role, setRole] = useState<string>("");
+  const [userId, setUserId] = useState<string>("");
+
   const navigate = useNavigate();
 
-  // ✅ Decode JWT to extract role (without external libs)
   const decodeToken = (token: string): any => {
     try {
-      const payload = JSON.parse(atob(token.split(".")[1]));
-      return payload;
+      return JSON.parse(atob(token.split(".")[1]));
     } catch {
       return null;
     }
@@ -113,13 +113,16 @@ const Dashboard: React.FC = () => {
     const token = localStorage.getItem("token");
     if (token) {
       const decoded = decodeToken(token);
-      if (decoded && decoded.role) setRole(decoded.role);
+
+      if (decoded) {
+        setRole(decoded.role);
+        setUserId(decoded.userId);
+      }
 
       getAllProjects(token)
         .then((data) => {
-          if (decoded && decoded.role === "PI") {
-            // ✅ Show only PI’s projects
-            setProjects(data.filter((p: Project) => p.piId === decoded.sub));
+          if (decoded.role === "PI") {
+            setProjects(data.filter((p: Project) => p.piId === decoded.userId));
           } else {
             setProjects(data);
           }
@@ -154,10 +157,10 @@ const Dashboard: React.FC = () => {
         </button>
       </div>
 
-      {/* ✅ Only Admins see the Create Project form */}
-      {role === "ADMIN" && <CreateProjectForm onProjectCreated={loadProjects} />}
+      {role === "ADMIN" && (
+        <CreateProjectForm onProjectCreated={loadProjects} />
+      )}
 
-      {/* ✅ Projects Table */}
       <table className="table table-striped">
         <thead>
           <tr>
@@ -183,4 +186,3 @@ const Dashboard: React.FC = () => {
 };
 
 export default Dashboard;
-
