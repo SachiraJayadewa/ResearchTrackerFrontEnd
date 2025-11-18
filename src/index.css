@@ -1,5 +1,14 @@
-body {
-  margin: 0;
+/* Tailwind base + components + utilities */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Bootstrap after tailwind base so bootstrap components are available */
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+/* small layout helpers */
+body { background: #121111;
+      margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
@@ -7,7 +16,12 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+
