@@ -1,46 +1,88 @@
-# Getting Started with Create React App
+# Research Tracker - Frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A modern, responsive React application for managing academic research projects, milestones, and documents. This frontend interacts with a Spring Boot JWT-secured backend to provide role-based access control for Admins, Principal Investigators (PIs), and Members.
 
-## Available Scripts
+## 🚀 Features
 
-In the project directory, you can run:
+- **Authentication:** Secure Login and Registration with JWT storage.
+- **Role-Based Access Control (RBAC):**
+  - **Admins/PIs:** Can create projects, update status, and upload documents.
+  - **Members:** Read-only access to projects; can view milestones and documents.
+- **Dashboard:** Overview of active projects and quick links.
+- **Project Management:**
+  - Create new projects with tags and dates.
+  - Update project status (Planning -> Active -> Completed).
+  - View detailed project summaries.
+- **Milestones:** Track critical deadlines and mark them as complete.
+- **Documents:** Link external resources (Google Drive/OneDrive) to specific projects.
+- **Responsive Design:** Built with React Bootstrap for mobile and desktop compatibility.
 
-### `npm start`
+## 🛠️ Tech Stack
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+- **Framework:** React (v18)
+- **Language:** TypeScript
+- **Routing:** React Router DOM (v6)
+- **State Management:** React Context API (for Auth)
+- **HTTP Client:** Axios (with Interceptors for JWT injection)
+- **Styling:** React Bootstrap & Bootstrap 5
+- **Animations:** Framer Motion
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+## ⚙️ Setup & Installation
 
-### `npm test`
+1. **Clone the repository:**
+   ```bash
+   git clone <https://github.com/SachiraJayadewa/ResearchTrackerFrontEnd.git>
+   cd research-tracker-frontend
+````
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+2.  **Install Dependencies:**
 
-### `npm run build`
+    ```bash
+    npm install
+    ```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3.  **Configure Backend:**
+    Ensure your Spring Boot backend is running on port `8080`.
+    If your backend runs on a different port, update `src/api/axiosConfig.ts`.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+4.  **Run the Application:**
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+    ```bash
+    npm start
+    ```
 
-### `npm run eject`
+    The app will launch at `http://localhost:3000`.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+## 🔑 User Roles & Credentials
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+To test the application, use the following role capabilities:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+| Role   | Capabilities |
+| :--- | :--- |
+| **ADMIN** | Full access: Create/Delete Projects, Manage Users, Update Status. |
+| **PI** | Manage own projects, Create Milestones, Upload Documents. |
+| **MEMBER** | View Projects, View Milestones, View Documents. |
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+## 📡 API Endpoints Summary
 
-## Learn More
+The frontend communicates with the following backend endpoints:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+  - **Auth:** `POST /api/auth/login`, `POST /api/auth/signup`
+  - **Projects:** `GET /api/projects`, `POST /api/projects`, `PUT /api/projects/{id}/status`
+  - **Milestones:** `GET /api/milestones`, `POST /api/milestones/{projectId}/create/{userId}`
+  - **Documents:** `GET /api/documents`, `POST /api/documents/{projectId}/upload/{userId}`
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+## 📸 Screenshots
+
+*(Add your screenshots in a folder named 'screenshots' and link them here)*
+
+  - [Login Page](https://www.google.com/search?q=./screenshots/login.png)
+  - [Dashboard](https://www.google.com/search?q=./screenshots/dashboard.png)
+  - [Project Details](https://www.google.com/search?q=./screenshots/details.png)
+
+-----
+
+*Built for CMJD 111 Coursework - Research Management System*
+
+```
+```
