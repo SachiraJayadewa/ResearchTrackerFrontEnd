@@ -73,14 +73,9 @@ The frontend communicates with the following backend endpoints:
   - **Documents:** `GET /api/documents`, `POST /api/documents/{projectId}/upload/{userId}`
 
 ## 📸 Screenshots
+View the screenshots folder  research-tracker-frontend\screenshots
 
-*(Add your screenshots in a folder named 'screenshots' and link them here)*
-
-  - [Login Page](https://www.google.com/search?q=./screenshots/login.png)
-  - [Dashboard](https://www.google.com/search?q=./screenshots/dashboard.png)
-  - [Project Details](https://www.google.com/search?q=./screenshots/details.png)
-
------
+----
 
 *Built for CMJD 111 Coursework - Research Management System*
 
