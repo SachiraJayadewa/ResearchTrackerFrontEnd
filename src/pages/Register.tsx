@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Card, Form, Button, Alert } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
-// Note: We import 'api' from your axios configuration to handle the connection
 import api from '../api/axiosConfig'; 
 
 const Register: React.FC = () => {

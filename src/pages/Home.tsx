@@ -1,80 +1,94 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import { Container, Row, Col, Button, Card, Badge } from "react-bootstrap";
+import { AuthContext } from "../context/AuthContext";
 
 const Home: React.FC = () => {
   const navigate = useNavigate();
+  const { isAuthenticated } = useContext(AuthContext);
 
   return (
-    <div className="flex flex-col items-center justify-center h-full p-6 text-center">
-      {/* Hero Section */}
-      <motion.h1
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="text-4xl md:text-5xl font-bold mb-4 text-white"
-      >
-        ResearchTracker
-      </motion.h1>
+    <div style={{ backgroundColor: "#1a1d20", minHeight: "100vh", color: "white" }}>
+      
+      {/* --- HERO SECTION --- */}
+      <div className="text-center p-5" style={{ background: "linear-gradient(180deg, #212529 0%, #1a1d20 100%)" }}>
+        <Container style={{ maxWidth: "800px", padding: "60px 20px" }}>
+          <Badge bg="info" className="mb-3 px-3 py-2 rounded-pill">CMJD 111 Coursework</Badge>
+          <h1 className="display-3 fw-bold mb-4">Research<span className="text-primary">Tracker</span></h1>
+          <p className="lead text-secondary mb-5" style={{ fontSize: "1.25rem" }}>
+            The all-in-one workspace for academic research. Manage your projects, 
+            track milestones, and organize documents in a secure, role-based environment.
+          </p>
 
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        className="text-gray-300 max-w-2xl mb-8 text-lg"
-      >
-        A modern research management platform for teams, universities, and labs.
-        Track project progress, manage milestones, and collaborate efficiently — 
-        all from a powerful unified dashboard.
-      </motion.p>
+          <div className="d-flex gap-3 justify-content-center">
+            {isAuthenticated ? (
+              <Button variant="success" size="lg" className="px-5 py-3 fw-bold" onClick={() => navigate("/dashboard")}>
+                Go to Dashboard →
+              </Button>
+            ) : (
+              <>
+                <Button variant="primary" size="lg" className="px-5 py-3 fw-bold" onClick={() => navigate("/login")}>
+                  Login
+                </Button>
+                <Button variant="outline-light" size="lg" className="px-5 py-3 fw-bold" onClick={() => navigate("/register")}>
+                  Create Account
+                </Button>
+              </>
+            )}
+          </div>
+        </Container>
+      </div>
 
-      {/* Login Button */}
-      <motion.button
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.4 }}
-        onClick={() => navigate("/login")}
-        className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg shadow-lg 
-        transition font-semibold"
-      >
-        Login to Continue
-      </motion.button>
+      {/* --- FEATURES SECTION --- */}
+      <Container className="py-5">
+        <Row className="g-4">
+          <Col md={4}>
+            <Card className="h-100 bg-dark text-light border-secondary shadow-sm p-3">
+              <Card.Body>
+                <div className="display-4 mb-3">📂</div>
+                <Card.Title as="h3">Project Management</Card.Title>
+                <Card.Text className="text-muted">
+                  Create new research initiatives, assign tags, and manage status from Planning to Completion.
+                  Strict role-based access ensures data security.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4}>
+            <Card className="h-100 bg-dark text-light border-secondary shadow-sm p-3">
+              <Card.Body>
+                <div className="display-4 mb-3">🚀</div>
+                <Card.Title as="h3">Milestone Tracking</Card.Title>
+                <Card.Text className="text-muted">
+                  Never miss a deadline. Set clear milestones with due dates and mark them as completed 
+                  to visualize your progress.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+          <Col md={4}>
+            <Card className="h-100 bg-dark text-light border-secondary shadow-sm p-3">
+              <Card.Body>
+                <div className="display-4 mb-3">🔐</div>
+                <Card.Title as="h3">Secure Documents</Card.Title>
+                <Card.Text className="text-muted">
+                  Link your Google Drive or OneDrive resources directly to specific projects. 
+                  Keep your research papers and data organized.
+                </Card.Text>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
 
-      {/* Dashboard Preview Cards */}
-      <motion.div
-        initial={{ opacity: 0, y: 40 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.8, duration: 0.8 }}
-        className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 w-full max-w-5xl"
-      >
-        <div className="bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition">
-          <h3 className="text-xl text-white font-bold mb-2">📁 Projects</h3>
-          <p className="text-gray-400">Create and manage research projects with timelines, teams, and status tracking.</p>
-        </div>
-
-        <div className="bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition">
-          <h3 className="text-xl text-white font-bold mb-2">📌 Milestones</h3>
-          <p className="text-gray-400">Track deadlines, completion dates, and milestone progress visually.</p>
-        </div>
-
-        <div className="bg-gray-800 rounded-xl p-6 shadow-xl hover:shadow-2xl transition">
-          <h3 className="text-xl text-white font-bold mb-2">📄 Documents</h3>
-          <p className="text-gray-400">Upload important PDFs, reports, and documents — securely stored and accessible.</p>
-        </div>
-      </motion.div>
-
-      {/* Footer Note */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 1.2, duration: 0.6 }}
-        className="mt-16 text-gray-500 text-sm"
-      >
-        Built for CMJD111 — Research Management System
-      </motion.p>
+      {/* --- FOOTER --- */}
+      <footer className="text-center py-4 border-top border-secondary mt-5">
+        <small className="text-muted">
+          © 2025 Research Institute Tracker | Designed for Assignment 2
+        </small>
+      </footer>
     </div>
   );
 };
 
 export default Home;
-
