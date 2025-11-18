@@ -38,3 +38,13 @@ export interface Document {
   uploadedBy?: { id: string; username: string };
   uploadedAt: string;
 }
+
+export interface Milestone {
+  id: string;
+  title: string;
+  description: string;
+  dueDate: string;
+  isCompleted: boolean;
+  project: { id: string; title: string }; // Backend returns the full object
+  createdBy?: { id: string; username: string };
+}
