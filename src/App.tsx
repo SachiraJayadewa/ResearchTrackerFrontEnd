@@ -6,11 +6,11 @@ import Layout from "./components/Layout";
 
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import Register from "./pages/Register"; // 1. Import Register
 import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Milestones from "./pages/Milestones";
 import Documents from "./pages/Documents";
-// 1. Import the CreateProjectForm component
 import CreateProjectForm from "./components/CreateProjectForm";
 
 function App() {
@@ -18,10 +18,12 @@ function App() {
     <AuthProvider>
       <Router>
         <Routes>
-          {/* Public */}
+          {/* --- Public Routes (Accessible without login) --- */}
           <Route path="/login" element={<Login />} />
+          {/* 2. Add the Register Route here */}
+          <Route path="/register" element={<Register />} />
 
-          {/* Protected Routes */}
+          {/* --- Protected Routes (Requires Login) --- */}
           <Route
             path="/"
             element={
@@ -34,8 +36,6 @@ function App() {
             <Route path="home" element={<Home />} />
             <Route path="dashboard" element={<Dashboard />} />
             
-            {/* 2. Add the Create Project Route here */}
-            {/* Note: Placing it before or near 'projects' is good practice */}
             <Route path="projects/new" element={<CreateProjectForm />} />
             <Route path="projects" element={<Projects />} />
             
@@ -43,7 +43,7 @@ function App() {
             <Route path="documents" element={<Documents />} />
           </Route>
 
-          {/* Redirect unknown */}
+          {/* Redirect unknown routes to Home (which will redirect to Login if not auth) */}
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </Router>
