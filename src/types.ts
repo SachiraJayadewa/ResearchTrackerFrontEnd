@@ -27,3 +27,14 @@ export interface Project {
   createdAt?: string;
   members?: User[];      // Matches List<User> members;
 }
+
+
+export interface Document {
+  id: string;
+  title: string;
+  description: string;
+  urlOrPath: string; // The link to the file
+  project?: { id: string; title: string }; // Backend sends the whole project object
+  uploadedBy?: { id: string; username: string };
+  uploadedAt: string;
+}
