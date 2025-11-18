@@ -10,6 +10,8 @@ import Dashboard from "./pages/Dashboard";
 import Projects from "./pages/Projects";
 import Milestones from "./pages/Milestones";
 import Documents from "./pages/Documents";
+// 1. Import the CreateProjectForm component
+import CreateProjectForm from "./components/CreateProjectForm";
 
 function App() {
   return (
@@ -31,7 +33,12 @@ function App() {
             <Route index element={<Home />} />
             <Route path="home" element={<Home />} />
             <Route path="dashboard" element={<Dashboard />} />
+            
+            {/* 2. Add the Create Project Route here */}
+            {/* Note: Placing it before or near 'projects' is good practice */}
+            <Route path="projects/new" element={<CreateProjectForm />} />
             <Route path="projects" element={<Projects />} />
+            
             <Route path="milestones" element={<Milestones />} />
             <Route path="documents" element={<Documents />} />
           </Route>

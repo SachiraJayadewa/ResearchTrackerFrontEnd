@@ -1,92 +1,44 @@
 import React, { useEffect, useState, useContext } from "react";
-import { getAllProjects } from "../services/projectService";
+// FIX 1: Import the service object, not the function directly
+import { projectService } from "../services/projectService"; 
 import { AuthContext } from "../context/AuthContext";
-import CreateProjectForm from "../components/CreateProjectForm";
+// import CreateProjectForm from "../components/CreateProjectForm"; // Keep this commented until we create it
 import { useNavigate } from "react-router-dom";
-
-interface Project {
-  id: string;
-  title: string;
-  summary?: string;
-  description?: string;
-  startDate?: string;
-  endDate?: string;
-  pi?: any;
-  piId?: string;
-}
+import { Project } from "../types"; // Import the Type to fix "any" errors
 
 const Dashboard: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState("");
-  const { token, role } = useContext(AuthContext);
+  const { role, logout } = useContext(AuthContext);
   const navigate = useNavigate();
-
-  const decodeToken = (token: string): any => {
-    try {
-      return JSON.parse(atob(token.split(".")[1]));
-    } catch {
-      return null;
-    }
-  };
-
-  const loadProjects = () => {
-    if (!token) return;
-    const decoded = decodeToken(token);
-    getAllProjects(token)
-      .then((data: Project[]) => {
-        if (decoded && decoded.role === "PI") {
-          const sub = decoded.sub || decoded.userId || decoded.username;
-          const filtered = data.filter((p: Project) => {
-            // flexible comparisons to account for different shapes returned by backend
-            if (!p) return false;
-            const piId = (p as any).piId || (p as any).pi?.id || (p as any).pi;
-            const piUsername = p.pi?.username;
-            return piId === sub || piUsername === sub || sub === (p as any).pi;
-          });
-          setProjects(filtered);
-        } else {
-          setProjects(data);
-        }
-      })
-      .catch((err) => {
-        console.error(err);
-        setError("Failed to load projects");
-      })
-      .finally(() => setLoading(false));
-  };
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    loadProjects();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [token]);
-
-  const handleLogout = () => {
-    localStorage.removeItem("token");
-    navigate("/login");
-  };
-
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p className="text-danger">{error}</p>;
+    // FIX 2: Use projectService.getAllProjects()
+    projectService.getAllProjects()
+      .then((data) => {
+        setProjects(data);
+      })
+      .catch((err: any) => { // FIX 3: Added ': any' to handle the error type
+        console.error(err);
+        setError("Failed to load projects");
+      });
+  }, []);
 
   return (
-    <div>
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Dashboard</h2>
-        <button className="btn btn-danger" onClick={handleLogout}>Logout</button>
-      </div>
-
-      {/* Only admins can create projects */}
-      {role === "ADMIN" && <CreateProjectForm onProjectCreated={loadProjects} />}
-
+    <div className="container mt-4">
+      <h1>Dashboard</h1>
+      <button className="btn btn-danger mb-3" onClick={logout}>Logout</button>
+      
+      {error && <div className="alert alert-danger">{error}</div>}
+      
       <div className="row">
-        {projects.map((p) => (
-          <div key={p.id} className="col-md-6">
-            <div className="card mb-3">
+        {projects.map((project) => (
+          <div key={project.id} className="col-md-4 mb-3">
+            <div className="card">
               <div className="card-body">
-                <h5>{p.title}</h5>
-                <p>{p.summary || p.description}</p>
-                <div className="text-muted small">{p.startDate} → {p.endDate}</div>
+                <h5 className="card-title">{project.title}</h5>
+                <p className="card-text">{project.summary}</p>
+                <span className="badge bg-primary">{project.status}</span>
               </div>
             </div>
           </div>

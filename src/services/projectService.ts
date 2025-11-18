@@ -1,12 +1,24 @@
-import axios from "axios";
+import api from '../api/axiosConfig';
+import { Project } from '../types';
 
-const API_BASE = "http://localhost:8080/api/projects";
+// Note: We export 'projectService' as an object containing the functions
+export const projectService = {
+  getAllProjects: async () => {
+    const response = await api.get<Project[]>('/projects');
+    return response.data;
+  },
+  
+  getProjectById: async (id: string) => {
+    const response = await api.get<Project>(`/projects/${id}`);
+    return response.data;
+  },
 
-export const getAllProjects = async (token: string) => {
-  const response = await axios.get(API_BASE, {
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  });
-  return response.data;
+  createProject: async (projectData: Partial<Project>) => {
+    const response = await api.post<Project>('/projects', projectData);
+    return response.data;
+  },
+
+  deleteProject: async (id: string) => {
+    await api.delete(`/projects/${id}`);
+  }
 };
